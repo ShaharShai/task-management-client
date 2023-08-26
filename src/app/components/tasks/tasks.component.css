@@ -1,0 +1,11 @@
+.done-task {
+  text-decoration: line-through;
+  color: #6c757d;
+  font-style: italic;
+}
+
+
+.green-bg {
+  text-decoration: none;
+  color: #155724;
+}

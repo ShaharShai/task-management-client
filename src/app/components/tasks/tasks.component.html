@@ -1,0 +1,123 @@
+
+
+
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+
+<body>
+  <div class="container mt-5">
+    <h1>Hello {{ username }}</h1>
+    <button class="btn btn-danger" (click)="logOutHandler()">Log Out</button>
+
+    <h1 class="mt-5">Tasks:</h1>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Priority</th>
+          <th>Done?</th>
+          <th>Check</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks" [class.done-task]="task.isdone">
+          <td>{{ task.title }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.priority }}</td>
+          <td [class.green-bg]="task.isdone">{{ task.isdone ? '✔' : '✘' }}</td>
+          <td>
+            <button
+              class="btn btn-sm btn-primary"
+              (click)="isDoneHandler(task)"
+              [disabled]="task.isdone"
+            >
+              Done
+            </button>
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="handleDelete(task._id)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="mt-4">New Task:</h3>
+    <div class="form-group">
+      <label>Title:</label>
+      <input
+        class="form-control"
+        type="text"
+        [(ngModel)]="task.title"
+        required
+        minlength="2"
+        maxlength="10"
+        #title = 'ngModel'
+      />
+      <div *ngIf="title.invalid && (title.dirty || title.touched)"
+      class="alert alert-danger">
+
+      <div *ngIf="title.errors?.['required']">
+        Title is required.
+      </div>
+
+      <div *ngIf="title.errors?.['minlength']">
+        Title must be at least 2 characters long.
+      </div>
+
+      <div *ngIf="title.errors?.['maxlength']">
+        Title must not exceed 10 characters.
+      </div>
+      
+    </div>
+      
+    </div>
+    <div class="form-group">
+      <label>Description:</label>
+      <input
+        class="form-control"
+        type="text"
+        [(ngModel)]="task.description"
+        maxlength="50"
+        #description = 'ngModel'
+      />
+    </div>
+    <div class="form-group">
+      <label>Priority:</label>
+      <input
+        class="form-control"
+        type="number"
+        [(ngModel)]="task.priority"
+        required
+        min="1"
+        max="5"
+        #priority = 'ngModel'
+      />
+      <div *ngIf="priority.invalid && (priority.dirty || priority.touched)" class="alert alert-danger">
+        <div *ngIf="priority.errors?.['required']">
+          Priority is required.
+        </div>
+        <div *ngIf="priority.errors?.['min']">
+          Priority must be at least 1.
+        </div>
+        <div *ngIf="priority.errors?.['max']">
+          Priority must not exceed 5.
+        </div>
+    </div>
+    </div>
+    <button class="btn btn-primary" (click)="handleSubmit()">Submit</button>
+  </div>
+
+  <!-- Add Bootstrap JS and Popper.js (required for certain Bootstrap components) scripts here -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
